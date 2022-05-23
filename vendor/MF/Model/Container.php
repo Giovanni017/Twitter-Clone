@@ -8,7 +8,15 @@ class Container {
 
 	public static function getModel($model) {
 		$class = "\\App\\Models\\".ucfirst($model);
-		$conn = Connection::getDb();
+		$conn = new \PDO(
+
+			"mysql:host=localhost;dbname=twitter_clone;charset=utf8",
+			
+			"root",
+			
+			"root");
+			
+			
 
 		return new $class($conn);
 	}
