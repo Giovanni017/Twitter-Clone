@@ -22,6 +22,15 @@ class AppController extends Action {
 
 		$this->view->tweets = $tweets;
 
+		$usuario = Container::getModel('Usuario');
+		$usuario->__set('id', $_SESSION['id']); 
+
+		$this->view->info_usuario = $usuario->getInfoUsuario();
+		$this->view->total_tweets = $usuario->getTotalTweets();
+		$this->view->total_seguindo = $usuario->getTotalSeguindo();
+		$this->view->total_seguidores = $usuario->getTotalSeguidores();
+		
+
 		$this->render('timeline');
 		
 		
@@ -93,6 +102,21 @@ class AppController extends Action {
 		}
 
 		header('Location: /quem_seguir');
+	}
+
+	public function removerTweet(){
+
+		$this->validaAutenticacao();
+
+		$id = isset($_GET['id']) ? $_GET['id'] : '';
+
+		$tweet = Container::getModel('Tweet');
+
+		$tweet->__set('id',$id);
+
+		$tweet->remover();
+		
+		header('location: /timeline');
 	}
 }
 
